@@ -15,9 +15,9 @@ public class Database {
             String user = System.getenv("DB_USER");
             String password = System.getenv("DB_PASSWORD");
             String name = System.getenv("DB_NAME");
-            conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port, user, password);
-            conn.createStatement().execute("create database if not exists " + name);
-            conn.setCatalog(name);
+            String url = String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true&" +
+                    "useUnicode=true&characterEncoding=utf8", host, port, name);
+            conn = DriverManager.getConnection(url, user, password);
         }
         return conn;
     }

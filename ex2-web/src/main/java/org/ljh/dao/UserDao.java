@@ -12,7 +12,7 @@ public class UserDao extends BaseDao {
         super();
     }
 
-    public User getUserByUsername(String username) throws SQLException, ClassNotFoundException {
+    public User getUserByUsername(String username) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("select * from users where username = ?");
         statement.setString(1, username);
         ResultSet rs = statement.executeQuery();
@@ -26,7 +26,7 @@ public class UserDao extends BaseDao {
         return user;
     }
 
-    public User authenticate(String username, String password) throws SQLException, ClassNotFoundException {
+    public User authenticate(String username, String password) throws SQLException {
         User user = getUserByUsername(username);
         if (user == null) {
             return null;
@@ -38,13 +38,13 @@ public class UserDao extends BaseDao {
         return user;
     }
 
-    public boolean create(String username, String password) throws SQLException, ClassNotFoundException {
+    public boolean create(String username, String password) throws SQLException {
         if (getUserByUsername(username) != null) {
             return false;
         }
         PreparedStatement statement = conn.prepareStatement("insert into users (username, password) values (?, ?)");
         statement.setString(1, username);
         statement.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
-        return statement.execute();
+        return statement.executeUpdate() > 0;
     }
 }
