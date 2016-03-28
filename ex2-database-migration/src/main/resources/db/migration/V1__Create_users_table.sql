@@ -4,4 +4,4 @@ CREATE TABLE `users` (
   `password` varchar(60) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
